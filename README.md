@@ -39,3 +39,5 @@ docker-compose run --rm tf plan
 docker-compose run --rm tf apply
 docker-compose run --rm tf destroy
 ```
+
+After applying the infrastructure-code to aour AWS account, check with the `instance_public_dns`in your browser.
