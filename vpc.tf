@@ -70,36 +70,6 @@ resource "aws_route_table_association" "web-rta-public-subnet" {
   route_table_id = aws_route_table.web.id
 }
 
-resource "aws_security_group" "web" {
-  vpc_id = aws_vpc.web.id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    // This means, all ip address are allowed to ssh ! 
-    // Do not do it in the production. 
-    // Put your office or home address in it!
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  //If you do not add this rule, you can not reach the NGIX  
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    "Name" = "ssh-allowed"
-  }
-}
-
 resource "aws_eip" "nat-gateway-ip" {
   vpc = true
 }
@@ -117,6 +87,10 @@ resource "aws_route_table" "nat-gateway" {
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat-gateway.id
+  }
+
+  tags = {
+    "Name" = "nat-gateway"
   }
 }
 

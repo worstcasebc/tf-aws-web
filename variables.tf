@@ -15,3 +15,7 @@ variable "private_subnets" {
 data "aws_availability_zones" "available" {
   state = "available"
 }
+
+data "http" "icanhazip" {
+  url = "http://icanhazip.com"
+}
